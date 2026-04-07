@@ -20,7 +20,7 @@ return [
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
 
-    /*
+    /*  
     |--------------------------------------------------------------------------
     | Authentication Guards
     |--------------------------------------------------------------------------
@@ -41,6 +41,16 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        // Tambahkan Guard Admin
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+        // Tambahkan Guard Siswa
+        'siswa' => [
+            'driver' => 'session',
+            'provider' => 'siswas',
         ],
     ],
 
@@ -64,13 +74,18 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', User::class),
+            'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        // Tambahkan Provider Admin
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        // Tambahkan Provider Siswa
+        'siswas' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Siswa::class,
+        ],
     ],
 
     /*

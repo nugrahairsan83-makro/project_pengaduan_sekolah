@@ -8,5 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Siswa extends Model
 {
-    
+    use Notifiable;
+        protected $table = 'siswa';
+        protected $primaryKey = 'nis'; // PK bukan 'id' tapi 'nis'
+        public $incrementing = false; // Karena NIS diinput manual, bukan auto-increment
+        protected $keyType = 'int'; // Tipe data NIS adalah integer
+        protected $guarded = [];
+
+        // Relasi: Satu siswa punya banyak laporan
+    public function inputAspirasi() {
+        return $this->hasMany(InputAspirasi::class, 'nis', 'nis');
+    }
 }

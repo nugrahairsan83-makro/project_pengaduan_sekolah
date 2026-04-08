@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable; // Wajib untuk Login
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Model;
 
-class Siswa extends Model
+class Siswa extends Authenticatable
 {
     use Notifiable;
         protected $table = 'siswa';

@@ -20,21 +20,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Buat Akun Admin
-        Admin::create([
-            'username' => 'admin',
-            'password' => Hash::make('admin123') // Password terenkripsi
-            ]);
+        Admin::updateOrCreate(
+            ['username' => 'admin'],
+            ['password' => Hash::make('admin123')]
+        );
 
         // 2. Buat Akun Siswa
-        Siswa::create([
-            'nis' => 12345, // NIS (Username login siswa)
-            'kelas' => 'XII RPL',
-            'password' => Hash::make('siswa123')
-        ]);
+        Siswa::updateOrCreate(
+            ['nis' => 12345],
+            ['kelas' => 'XII RPL', 'password' => Hash::make('siswa123')]
+        );
 
         // 3. Buat Kategori
-        Kategori::create(['ket_kategori' => 'Sarana Kelas']);
-        Kategori::create(['ket_kategori' => 'Kebersihan']);
-        Kategori::create(['ket_kategori' => 'Kantin']);
+        Kategori::updateOrCreate(['ket_kategori' => 'Sarana Kelas']);
+        Kategori::updateOrCreate(['ket_kategori' => 'Kebersihan']);
+        Kategori::updateOrCreate(['ket_kategori' => 'Kantin']);
     }
 }

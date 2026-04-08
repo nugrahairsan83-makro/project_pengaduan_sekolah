@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticable; //Wajib untuk login
+use Illuminate\Foundation\Auth\User as Authenticable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 

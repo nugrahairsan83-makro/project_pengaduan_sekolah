@@ -11,22 +11,27 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Tabel Utama untuk Warga
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('username')->unique(); // Untuk login non-sensitif
+            $table->string('email')->unique();    // Untuk login/notifikasi
+            $table->string('no_rumah', 10)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
 
+        // Tabel bawaan Laravel untuk reset password
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
 
+        // Tabel bawaan Laravel untuk sesi login
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();

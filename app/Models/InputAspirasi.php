@@ -11,9 +11,10 @@ class InputAspirasi extends Model
     protected $guarded = [];
 
     // Relasi ke Siswa
-    public function siswa()
+    // app/Models/InputAspirasi.php
+    public function user()
     {
-        return $this->belongsTo(Siswa::class, 'nis', 'nis');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     // Relasi ke Kategori

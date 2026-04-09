@@ -23,45 +23,47 @@
         <div class="container">
             <a class="navbar-brand" href="#">Lapor Pak RT</a>
             <div class="ms-auto">
-                {{-- Cek Login Pengurus (Admin) --}}
-                @auth('admin')
+                
+                <?php if(auth()->guard('admin')->check()): ?>
                     <span class="navbar-text text-white">
-                        Halo, Pengurus ({{ Auth::guard('admin')->user()->username }})
+                        Halo, Pengurus (<?php echo e(Auth::guard('admin')->user()->username); ?>)
                     </span>
-                    <a href="{{ route('logout') }}" class="btn btn-sm btn-danger ms-3">Logout</a>
+                    <a href="<?php echo e(route('logout')); ?>" class="btn btn-sm btn-danger ms-3">Logout</a>
 
-                    {{-- Cek Login Warga (User) --}}
-                @else
-                    @auth
+                    
+                <?php else: ?>
+                    <?php if(auth()->guard()->check()): ?>
                         <span class="navbar-text text-white">
-                            Halo, {{ Auth::user()->name }} (No. Rumah: {{ Auth::user()->no_rumah }})
+                            Halo, <?php echo e(Auth::user()->name); ?> (No. Rumah: <?php echo e(Auth::user()->no_rumah); ?>)
                         </span>
-                        <a href="{{ route('logout') }}" class="btn btn-sm btn-danger ms-3">Logout</a>
-                    @endauth
-                @endauth
+                        <a href="<?php echo e(route('logout')); ?>" class="btn btn-sm btn-danger ms-3">Logout</a>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        @if(session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
+                <?php echo e(session('success')); ?>
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endif
+        <?php endif; ?>
 
-        @if(session('error'))
+        <?php if(session('error')): ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
+                <?php echo e(session('error')); ?>
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endif
+        <?php endif; ?>
 
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html>
+</html><?php /**PATH C:\xampp\htdocs\pengaduan-sekolah\resources\views/layout.blade.php ENDPATH**/ ?>

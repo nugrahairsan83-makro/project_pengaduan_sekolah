@@ -11,58 +11,44 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // 1. Tabel Admin
+        // 1. Tabel Admin (Pengurus RT)
         Schema::create('admin', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
             $table->timestamps();
-});
+        });
 
-        // 2. Tabel Siswa
-        Schema::create('siswa', function (Blueprint $table) {
-            $table->integer('nis')->primary(); // Primary Key Manual (Integer)
-            $table->string('kelas', 10);
-            $table->string('password'); // Untuk Login
-            $table->timestamps();
-});
-
-        // 3. Tabel Kategori
+        // 2. Tabel Kategori
         Schema::create('kategori', function (Blueprint $table) {
-            $table->integer('id_kategori')->autoIncrement(); // PK Auto Increment
-            $table->string('ket_kategori', 30);
+            $table->integer('id_kategori')->autoIncrement();
+            $table->string('ket_kategori', 50);
             $table->timestamps();
-});
+        });
 
-        // 4. Tabel Input Aspirasi (Laporan Awal)
+        // 3. Tabel Input Aspirasi (Relasi ke tabel users)
         Schema::create('input_aspirasi', function (Blueprint $table) {
-            $table->integer('id_pelaporan')->autoIncrement(); // PK
-            $table->integer('nis'); // FK
-            $table->integer('id_kategori'); // FK
-            $table->string('lokasi', 50);
-            $table->string('ket', 50);
+            $table->integer('id_pelaporan')->autoIncrement();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); 
+            $table->integer('id_kategori');
+            $table->string('lokasi', 100);
+            $table->text('ket');
             $table->timestamps();
 
-            // Foreign Keys
-            $table->foreign('nis')->references('nis')->on('siswa')->onDelete('cascade');
+            // Foreign Key ke kategori
             $table->foreign('id_kategori')->references('id_kategori')->on('kategori');
-});
+        });
 
-        // 5. Tabel Aspirasi (Status & Proses)
+        // 4. Tabel Aspirasi (Status & Feedback)
         Schema::create('aspirasi', function (Blueprint $table) {
-            $table->integer('id_aspirasi')->autoIncrement(); // PK
-            $table->integer('id_pelaporan'); // FK
+            $table->integer('id_aspirasi')->autoIncrement();
+            $table->integer('id_pelaporan');
             $table->enum('status', ['Menunggu', 'Proses', 'Selesai'])->default('Menunggu');
-            $table->integer('id_kategori'); // Sesuai gambar
-            $table->text('feedback')->nullable(); // Umpan Balik
+            $table->text('feedback')->nullable();
             $table->timestamps();
 
-            // Foreign Keys
-            $table->foreign('id_pelaporan')->references('id_pelaporan')->on('input_aspirasi')
-            ->onDelete('cascade');
-});
-
-
+            $table->foreign('id_pelaporan')->references('id_pelaporan')->on('input_aspirasi')->onDelete('cascade');
+        });
     }
 
     /**
@@ -73,7 +59,6 @@ return new class extends Migration
         Schema::dropIfExists('aspirasi');
         Schema::dropIfExists('input_aspirasi');
         Schema::dropIfExists('kategori');
-        Schema::dropIfExists('siswa');
         Schema::dropIfExists('admin');
     }
 };

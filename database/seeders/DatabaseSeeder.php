@@ -17,23 +17,30 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    // database/seeders/DatabaseSeeder.php
+        public function run(): void
     {
-        // 1. Buat Akun Admin
+        // Akun Admin (Pengurus)
         Admin::updateOrCreate(
-            ['username' => 'admin'],
+            ['username' => 'ketua_rt'],
             ['password' => Hash::make('admin123')]
         );
 
-        // 2. Buat Akun Siswa
-        Siswa::updateOrCreate(
-            ['nis' => 12345],
-            ['kelas' => 'XII RPL', 'password' => Hash::make('siswa123')]
+        // Akun User (Warga)
+        User::updateOrCreate(
+            ['email' => 'warga@example.com'],   
+            [
+                'username' => 'warga01',
+                'name' => 'Bapak Budi',
+                'no_rumah' => 'A12',
+                'password' => Hash::make('warga123')
+            ]
         );
 
-        // 3. Buat Kategori
-        Kategori::updateOrCreate(['ket_kategori' => 'Sarana Kelas']);
-        Kategori::updateOrCreate(['ket_kategori' => 'Kebersihan']);
-        Kategori::updateOrCreate(['ket_kategori' => 'Kantin']);
+        // Kategori
+        $kategori = ['Keamanan', 'Kebersihan', 'Jalan & Lampu'];
+        foreach ($kategori as $k) {
+            Kategori::updateOrCreate(['ket_kategori' => $k]);
+        }
     }
 }

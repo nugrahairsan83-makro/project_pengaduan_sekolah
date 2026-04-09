@@ -32,15 +32,16 @@
             <p class="text-muted">Silakan masuk untuk menyampaikan aspirasi</p>
         </div>
 
-        @if(session('error'))
+        <?php if(session('error')): ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
+                <?php echo e(session('error')); ?>
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endif
+        <?php endif; ?>
 
-        <form action="{{ route('login') }}" method="POST">
-            @csrf
+        <form action="<?php echo e(route('login')); ?>" method="POST">
+            <?php echo csrf_field(); ?>
             <div class="mb-3">
                 <label class="form-label fw-semibold">Username atau Email</label>
                 <input type="text" name="username" class="form-control" placeholder="Masukkan Username atau Email"
@@ -57,7 +58,7 @@
 
             <div class="text-center mt-3">
                 <p class="mb-0 text-muted">Belum punya akun?
-                    <a href="{{ route('register') }}" class="text-decoration-none fw-bold">Daftar sebagai Warga</a>
+                    <a href="<?php echo e(route('register')); ?>" class="text-decoration-none fw-bold">Daftar sebagai Warga</a>
                 </p>
                 <small class="text-muted">Masalah login? Hubungi Sekretariat RT</small>
             </div>
@@ -69,4 +70,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html>
+</html><?php /**PATH C:\xampp\htdocs\pengaduan-sekolah\resources\views/login.blade.php ENDPATH**/ ?>

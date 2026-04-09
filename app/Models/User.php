@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\InputAspirasi;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
@@ -19,9 +20,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'username',
         'name',
         'email',
         'password',
+        'no_rumah',
     ];
 
     /**
@@ -35,15 +38,11 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Get the input aspirasi for the user.
      *
-     * @return array<string, string>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+    public function inputAspirasi() {
+        return $this->hasMany(InputAspirasi::class, 'user_id', 'id');
     }
 }

@@ -42,15 +42,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        // Tambahkan Guard Admin
+
         'admin' => [
             'driver' => 'session',
-            'provider' => 'admins',
-        ],
-        // Tambahkan Guard Siswa
-        'siswa' => [
-            'driver' => 'session',
-            'provider' => 'siswas',
+            'provider' => 'admins', // Pastikan ini mengarah ke provider admins
         ],
     ],
 
@@ -74,17 +69,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => env('AUTH_MODEL', App\Models\User::class), // Ini untuk Warga
         ],
-        // Tambahkan Provider Admin
+
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
-        ],
-        // Tambahkan Provider Siswa
-        'siswas' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Siswa::class,
+            'model' => App\Models\Admin::class, // Ini untuk Admin (RT/RW)
         ],
     ],
 

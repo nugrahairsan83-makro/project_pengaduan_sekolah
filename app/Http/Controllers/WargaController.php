@@ -8,20 +8,23 @@ use App\Models\InputAspirasi;
 use App\Models\Aspirasi;
 use App\Models\Kategori;
 
-class SiswaController extends Controller
+class WargaController extends Controller
 {
     public function index()
     {
-        // Ambil data user yang sedang login
-        $nis = Auth::guard('siswa')->user()->nis;
-        // Ambil histori aspirasi siswa tersebut + relasi aspirasi & kategori
-        $histori = InputAspirasi::where('nis', $nis)
+        // Ambil ID user (Warga) yang sedang login
+        $user_id = Auth::id();
+
+        // Ambil histori aspirasi warga tersebut berdasarkan user_id
+        $histori = InputAspirasi::where('user_id', $user_id)
             ->with('aspirasi', 'kategori')
             ->latest()
             ->get();
-        $kategori = Kategori::all(); // Untuk dropdown di form
-        return view('siswa.dashboard', compact('histori', 'kategori'));
+
+        $kategori = Kategori::all();
+        return view('warga.dashboard', compact('histori', 'kategori'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -29,19 +32,21 @@ class SiswaController extends Controller
             'ket' => 'required',
             'id_kategori' => 'required'
         ]);
-        // 1. Simpan ke Input Aspirasi
+
+        // 1. Simpan ke Input Aspirasi menggunakan user_id
         $input = InputAspirasi::create([
-            'nis' => Auth::guard('siswa')->user()->nis,
+            'user_id' => Auth::id(),
             'id_kategori' => $request->id_kategori,
             'lokasi' => $request->lokasi,
             'ket' => $request->ket
         ]);
+
         // 2. Otomatis buat status 'Menunggu' di tabel Aspirasi
         Aspirasi::create([
             'id_pelaporan' => $input->id_pelaporan,
-            'status' => 'Menunggu', 
-            'id_kategori' => $request->id_kategori
+            'status' => 'Menunggu'
         ]);
-        return back()->with('success', 'Laporan berhasil dikirim!');
+
+        return back()->with('success', 'Aspirasi berhasil dikirim!');
     }
 }
